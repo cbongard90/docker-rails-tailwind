@@ -3,3 +3,6 @@
 // ./bin/rails generate stimulus controllerName
 
 import { application } from "./application"
+
+import HideMenuController from "./hide_menu_controller"
+application.register("hide-menu", HideMenuController)

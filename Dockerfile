@@ -58,6 +58,7 @@ RUN apt-get update \
   && useradd --create-home --no-log-init -u "${UID}" -g "${GID}" ruby \
   && chown ruby:ruby -R /app
 
+
 USER ruby
 
 COPY --chown=ruby:ruby bin/ ./bin
@@ -74,6 +75,6 @@ COPY --chown=ruby:ruby . .
 
 ENTRYPOINT ["/app/bin/docker-entrypoint-web"]
 
-EXPOSE 8000
+EXPOSE 3000
 
 CMD ["rails", "s"]

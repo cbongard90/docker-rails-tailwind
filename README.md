@@ -14,26 +14,42 @@ practices](https://nickjanetakis.com/blog/best-practices-around-production-ready
 based on building and deploying dozens of assorted Dockerized web apps since
 late 2014.
 
-**This app is using Rails 7.1.2 and Ruby 3.2.2**. The screenshot doesn't get
-updated every time I bump the versions:
-
-[![Screenshot](.github/docs/screenshot.jpg)](https://github.com/nickjj/docker-rails-example/blob/main/.github/docs/screenshot.jpg?raw=true)
+**This app is using Rails 7.1.2 and Ruby 3.2.2**.
 
 ## Table of contents
 
-- [Tech stack](#tech-stack)
-- [Main changes vs a newly generated Rails app](#main-changes-vs-a-newly-generated-rails-app)
-- [Running this app](#running-this-app)
-- [Files of interest](#files-of-interest)
-  - [`.env`](#env)
-  - [`run`](#run)
-- [Running a script to automate renaming the project](#running-a-script-to-automate-renaming-the-project)
-- [Updating dependencies](#updating-dependencies)
-- [See a way to improve something?](#see-a-way-to-improve-something)
-- [Additional resources](#additional-resources)
-  - [Learn more about Docker and Ruby on Rails](#learn-more-about-docker-and-ruby-on-rails)
-  - [Deploy to production](#deploy-to-production)
-- [About the author](#about-the-author)
+- [An example Rails + Docker app](#an-example-rails--docker-app)
+  - [Table of contents](#table-of-contents)
+  - [Tech stack](#tech-stack)
+    - [Back-end](#back-end)
+    - [Front-end](#front-end)
+  - [Main changes vs a newly generated Rails app](#main-changes-vs-a-newly-generated-rails-app)
+  - [Running this app](#running-this-app)
+      - [Clone this repo anywhere you want and move into the directory:](#clone-this-repo-anywhere-you-want-and-move-into-the-directory)
+      - [Copy an example .env file because the real one is git ignored:](#copy-an-example-env-file-because-the-real-one-is-git-ignored)
+      - [Build everything:](#build-everything)
+      - [Setup the initial database:](#setup-the-initial-database)
+      - [Check it out in a browser:](#check-it-out-in-a-browser)
+      - [Running the test suite:](#running-the-test-suite)
+      - [Stopping everything:](#stopping-everything)
+  - [Files of interest](#files-of-interest)
+    - [`.env`](#env)
+    - [`run`](#run)
+  - [Running a script to automate renaming the project](#running-a-script-to-automate-renaming-the-project)
+      - [Run the rename-project script included in this repo:](#run-the-rename-project-script-included-in-this-repo)
+      - [Start and setup the project:](#start-and-setup-the-project)
+      - [Sanity check to make sure the tests still pass:](#sanity-check-to-make-sure-the-tests-still-pass)
+      - [Tying up a few loose ends:](#tying-up-a-few-loose-ends)
+  - [Updating dependencies](#updating-dependencies)
+      - [In development:](#in-development)
+      - [In CI:](#in-ci)
+      - [In production:](#in-production)
+  - [See a way to improve something?](#see-a-way-to-improve-something)
+  - [Additional resources](#additional-resources)
+      - [Official documentation](#official-documentation)
+    - [Deploy to production](#deploy-to-production)
+  - [About the author](#about-the-author)
+  - [TroubleShoot](#troubleshoot)
 
 ## Tech stack
 
@@ -70,7 +86,7 @@ Dockerize an existing Rails app.
     - Add `pages` controller with a home page
     - Add `up` controller with 2 health check related actions
 - **Config**:
-    - Log to STDOUT so that Docker can consume and deal with log output 
+    - Log to STDOUT so that Docker can consume and deal with log output
     - Credentials are removed (secrets are loaded in with an `.env` file)
     - Extract a bunch of configuration settings into environment variables
     - Rewrite `config/database.yml` to use environment variables
@@ -146,7 +162,7 @@ error? Please update to at least Docker Compose v2.20.2+ or Docker Desktop
 4.22.0+.
 
 Did you receive an error about a port being in use? Chances are it's because
-something on your machine is already running on port 8000. Check out the docs
+something on your machine is already running on port 3000. Check out the docs
 in the `.env` file for the `DOCKER_WEB_PORT` variable to fix this.
 
 Did you receive a permission denied error? Chances are you're running native
@@ -165,7 +181,7 @@ variables to fix this.
 
 #### Check it out in a browser:
 
-Visit <http://localhost:8000> in your favorite browser.
+Visit <http://localhost:3000> in your favorite browser.
 
 #### Running the test suite:
 
@@ -366,18 +382,10 @@ Now that you have your app ready to go, it's time to build something cool! If
 you want to learn more about Docker, Rails and deploying a Rails app here's a
 couple of free and paid resources. There's Google too!
 
-### Learn more about Docker and Ruby on Rails
-
-#### Official documentation 
+#### Official documentation
 
 - <https://docs.docker.com/>
 - <https://guides.rubyonrails.org/>
-
-#### Courses / Screencasts
-
-- [https://diveintodocker.com](https://diveintodocker.com?ref=docker-rails-example)
-  is a course I created which goes over the Docker and Docker Compose
-  fundamentals
 
 ### Deploy to production
 
@@ -398,3 +406,7 @@ There's hundreds of [blog posts](https://nickjanetakis.com/blog/) and a couple
 of [video courses](https://nickjanetakis.com/courses/) on web development and
 deployment topics. I also have a [podcast](https://runninginproduction.com)
 where I talk with folks about running web apps in production.
+
+## TroubleShoot
+- If you encounter the following error  ```A server is already running (pid: 1, file: /app/tmp/pids/server.pid).```
+- Run the following code in a separate terminal ```sudo rm tmp/pids/server.pid``` and restart the container
